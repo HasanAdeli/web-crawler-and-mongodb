@@ -58,9 +58,7 @@ class IsPseudo(AbstractValidator):
 
 
 def get_valid_urls(base_url, urls):
-    urls['Urls'] = list(set(urls['Urls']))
-    urls['Urls'] = [url for url in urls['Urls'] if is_valid_url(base_url, url)]
-    return urls
+    return [url for url in urls if is_valid_url(base_url, url['url'])]
 
 
 def is_valid_url(base_url: str, url: str) -> bool:

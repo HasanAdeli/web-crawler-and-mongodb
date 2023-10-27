@@ -39,30 +39,30 @@ class ExtensionIdentifier:
         return extension in COMPRESSED_FILE_EXTENSIONS
 
 
-def url_separator(urls: dict) -> dict:
-    for url in urls['Urls']:
+def url_separator(urls: list) -> list:
+    for url in urls:
         identifier = ExtensionIdentifier()
-        extension = get_extension(url)
+        extension = get_extension(url['url'])
         if not extension:
             continue
 
         if identifier.is_css_url(extension):
-            move_url(url, urls['Urls'], urls['CssUrls'])
+            change_url_type(url, 'css_url')
 
         elif identifier.is_js_url(extension):
-            move_url(url, urls['Urls'], urls['JsUrls'])
+            change_url_type(url, 'js_url')
 
         elif identifier.is_img_url(extension):
-            move_url(url, urls['Urls'], urls['ImgUrls'])
+            change_url_type(url, 'img_url')
 
         elif identifier.is_video_url(extension):
-            move_url(url, urls['Urls'], urls['VideoUrls'])
+            change_url_type(url, 'video_url')
 
         elif identifier.is_audio_url(extension):
-            move_url(url, urls['Urls'], urls['AudioUrls'])
+            change_url_type(url, 'audio_url')
 
         elif identifier.is_doc_url(extension):
-            move_url(url, urls['Urls'], urls['DocUrls'])
+            change_url_type(url, 'doc_url')
 
     return urls
 
@@ -74,6 +74,6 @@ def get_extension(url: str) -> str:
     return extension.split('.')[-1].lower()
 
 
-def move_url(url: str, from_list: list, to_list: list) -> None:
-    from_list.remove(url)
-    to_list.append(url)
+def change_url_type(url: dict, new_type: str) -> None:
+    url['type'] = new_type
+
